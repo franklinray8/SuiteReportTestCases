@@ -12,11 +12,12 @@ export const VIDA_SUITE: SuiteConfig = {
   grupos: SUCURSALES_VIDA,
   tipos: TIPOS_VIDA,
   seed: SEED_VIDA,
+  seedSource: { file: 'src/app/core/data/vida/seed.data.ts', constName: 'SEED_VIDA' },
   // Claves heredadas: no cambiarlas o se pierde lo ya capturado en el navegador.
   storage: {
     key: 'reporteSuiteBMI_v1',
     version: 'modelo-tipos-2026-09-21',
     legacyVersion: 'modelo-nuevos-2026-08-06',
   },
-  csvPrefix: 'reporte-suite-vida',
+  filePrefix: 'reporte-suite-vida',
 };

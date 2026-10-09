@@ -2,10 +2,14 @@ import { DOCUMENT } from '@angular/common';
 import { Injectable, inject } from '@angular/core';
 
 import { CsvCell, toCsv } from '../utils/csv.utils';
+import { downloadFile } from '../utils/download.utils';
 import { planActual } from '../utils/report-calculations.utils';
 import { ReportStateService } from './report-state.service';
 
 const VALUE_HEADER: CsvCell[] = ['Plan', 'Anterior', 'Nuevos', 'Actualizado', 'Actual', 'Crecimiento%', 'Mantenimiento%'];
+
+/** Marca UTF-8 para que Excel abra bien los acentos. */
+const BOM = '\uFEFF';
 
 /** Exporta el detalle de la suite (todos sus tipos) a CSV (UTF-8 con BOM para Excel). */
 @Injectable()
@@ -33,15 +37,8 @@ export class CsvExportService {
   }
 
   download(): void {
-    const blob = new Blob(['﻿' + toCsv(this.buildRows())], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const a = this.document.createElement('a');
-    a.href = url;
-    a.download = this.state.suite.csvPrefix + '-' + (this.state.fecha() || 'periodo') + '.csv';
-    this.document.body.appendChild(a);
-    a.click();
-    this.document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    const name = this.state.suite.filePrefix + '-' + (this.state.fecha() || 'periodo') + '.csv';
+    downloadFile(this.document, name, BOM + toCsv(this.buildRows()), 'text/csv;charset=utf-8;');
     this.state.notify('CSV descargado');
   }
 }

@@ -19,8 +19,12 @@
       <input type="date" id="fecha" [value]="state.fecha()" (change)="onFecha($event)" />
     </div>
 
-    <ion-button class="app-btn" fill="outline" (click)="confirmReset()"
-      title="Descarta lo guardado y vuelve a los datos del archivo">Reiniciar</ion-button>
+    <ion-button class="app-btn" fill="outline" (click)="openDataMenu()"
+      title="Respaldo, semilla para el código y reiniciar">
+      Datos<ion-icon slot="end" name="chevron-down-outline" />
+    </ion-button>
+    <input #fileInput class="file-in" type="file" accept=".json,application/json"
+      aria-label="Archivo de respaldo" (change)="onBackupFile($event)" />
     <ion-button class="app-btn" fill="outline" (click)="exportCsv()">
       <ion-icon slot="start" name="download-outline" />CSV
     </ion-button>

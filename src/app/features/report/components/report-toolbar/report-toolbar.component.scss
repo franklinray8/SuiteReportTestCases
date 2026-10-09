@@ -93,3 +93,6 @@ ion-toolbar {
 @media print {
   .suites { display: none; }
 }
+
+/* se abre desde el menú Datos; nunca se muestra */
+.file-in { display: none; }

@@ -2,7 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { DestroyRef, Injectable, computed, inject, signal } from '@angular/core';
 
 import { AUTOSAVE_DELAY_MS } from '../data/storage.config';
-import { PlanField, PlanValue, ReportState, TipoKey } from '../models/report.models';
+import { PlanField, PlanValue, ReportState, TipoKey, ValuesByTipo } from '../models/report.models';
 import { SUITE_CONFIG } from '../suites/suite.token';
 import { todayIso } from '../utils/date.utils';
 import { planKey } from '../utils/plan.utils';
@@ -77,18 +77,31 @@ export class ReportStateService {
 
   /** Cerrar período: Actual pasa a Anterior y se limpian Nuevos / Actualizado en todos los tipos. */
   rollForward(): void {
-    const next = emptyValues(this.tipos);
-    for (const t of this.tipos) {
-      for (const b of this.branches) {
-        for (const plan of b.productos) {
-          const v = this.getValue(t.key, b.code, plan);
-          next[t.key][planKey(b.code, plan)] = { a: v.a + v.nu, nu: 0, up: 0 };
-        }
-      }
+    const next = this.effectiveValues();
+    for (const plans of Object.values(next)) {
+      for (const [k, v] of Object.entries(plans)) plans[k] = { a: v.a + v.nu, nu: 0, up: 0 };
     }
     this.values.set(next);
     this.fecha.set(todayIso());
     this.saveNow('Período cerrado');
+  }
+
+  /** Reemplaza valores y período de una vez (p. ej. al importar un respaldo). */
+  replaceAll(state: ReportState, message: string): void {
+    this.values.set(state.values);
+    this.fecha.set(state.fecha);
+    this.saveNow(message);
+  }
+
+  /** Valor efectivo (guardado o semilla) de cada plan de la suite, en todos los tipos. */
+  effectiveValues(): ValuesByTipo {
+    const out = emptyValues(this.tipos);
+    for (const t of this.tipos) {
+      for (const b of this.branches) {
+        for (const plan of b.productos) out[t.key][planKey(b.code, plan)] = { ...this.getValue(t.key, b.code, plan) };
+      }
+    }
+    return out;
   }
 
   notify(message: string): void {

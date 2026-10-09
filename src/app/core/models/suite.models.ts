@@ -18,12 +18,14 @@ export interface SuiteConfig {
   /** Al menos uno. Con uno solo se ocultan el selector y el resumen por tipo. */
   tipos: readonly Tipo[];
   seed: Partial<Record<TipoKey, PlanValues>>;
+  /** Dónde vive la semilla en el código; lo usa "Copiar como semilla". */
+  seedSource: { file: string; constName: string };
   storage: {
     key: string;
     version: string;
     /** Versión del modelo plano anterior (sin tipo); se migra al primer tipo. */
     legacyVersion?: string;
   };
-  /** Prefijo del archivo CSV descargado. */
-  csvPrefix: string;
+  /** Prefijo de los archivos descargados (CSV y respaldo). */
+  filePrefix: string;
 }

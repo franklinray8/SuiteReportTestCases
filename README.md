@@ -74,6 +74,20 @@ Definidos en `core/utils/report-calculations.utils.ts`:
 | Cambiar títulos, etiquetas o tipos de una suite | `core/suites/<suite>.suite.ts` |
 | Agregar una suite nueva | crear `core/suites/<nueva>.suite.ts`; sumarla a `SUITES` en `suite.providers.ts`, a `SuiteId` en `suite.models.ts` y a `app.routes.ts` |
 
-> Los datos se guardan solo en el `localStorage` del navegador (claves `reporteSuiteBMI_v1` para Vida y
-> `reporteSuiteBMI_salud_v1` para Salud). No cambies `storage.key` ni `storage.version` de una suite
-> existente: el navegador dejaría de encontrar lo ya capturado. Usa **CSV** como respaldo.
+## Dónde viven los datos
+
+Lo que se escribe en la app se guarda solo en el `localStorage` del navegador (claves `reporteSuiteBMI_v1`
+para Vida y `reporteSuiteBMI_salud_v1` para Salud). No cambies `storage.key` ni `storage.version` de una
+suite existente: el navegador dejaría de encontrar lo ya capturado.
+
+El menú **Datos** de cada suite tiene:
+
+| Opción | Para qué |
+|---|---|
+| **Exportar respaldo (.json)** | Guardar una copia de todos los valores y el período. |
+| **Importar respaldo…** | Restaurar esa copia, en este u otro navegador o PC. Valida el archivo: solo acepta respaldos de la misma suite, descarta planes que ya no existen y cualquier valor que no sea un entero ≥ 0. Pide confirmación porque reemplaza todo. |
+| **Copiar como semilla (código)** | Genera el archivo `seed.data.ts` completo con los valores actuales. Se pega reemplazando `core/data/<suite>/seed.data.ts`, se hace commit, y pasa a ser el punto de partida para quien abra la app sin datos propios o pulse Reiniciar. |
+| **Reiniciar** | Borra lo capturado en este navegador y vuelve a la semilla. Pide confirmación. |
+
+La semilla nunca pisa lo que un navegador ya tiene guardado: un plan con valor propio sigue mostrando ese
+valor. Ten en cuenta que todo lo que entra a la semilla queda en el historial de git.

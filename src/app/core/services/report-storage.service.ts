@@ -20,31 +20,38 @@ export class ReportStorageService {
   }
 
   load(): ReportState {
-    const saved = this.read();
-    if (!saved || typeof saved !== 'object') return this.freshState();
+    const raw = this.read();
+    const state = this.parse(raw);
+    if (!state) return this.freshState();
+    // si venía del modelo anterior, se guarda ya migrado
+    if ((raw as { version?: unknown }).version !== state.version) this.save(state);
+    return state;
+  }
+
+  /**
+   * Valida y normaliza un estado guardado (localStorage o archivo de respaldo).
+   * Devuelve null si no es de una versión conocida. Solo conserva enteros >= 0.
+   */
+  parse(saved: unknown): ReportState | null {
+    if (!saved || typeof saved !== 'object') return null;
     const raw = saved as { version?: unknown; fecha?: unknown; values?: unknown };
-    const fecha = typeof raw.fecha === 'string' && raw.fecha ? raw.fecha : todayIso();
+    const fecha = typeof raw.fecha === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(raw.fecha) ? raw.fecha : todayIso();
     const { version, legacyVersion } = this.suite.storage;
 
     if (raw.version === version) {
       const values = emptyValues(this.suite.tipos);
-      const src = (raw.values ?? {}) as Record<string, unknown>;
+      const src = (raw.values && typeof raw.values === 'object' ? raw.values : {}) as Record<string, unknown>;
       for (const t of this.suite.tipos) values[t.key] = sanitizeValues(src[t.key]);
       return { version, fecha, values };
     }
 
     if (legacyVersion && raw.version === legacyVersion) {
-      // migra el modelo plano anterior (sin tipo) al primer tipo de la suite
-      const migrated: ReportState = {
-        version,
-        fecha,
-        values: { ...emptyValues(this.suite.tipos), [this.suite.tipos[0].key]: sanitizeValues(raw.values) },
-      };
-      this.save(migrated);
-      return migrated;
+      // modelo plano anterior (sin tipo): va al primer tipo de la suite
+      const values = { ...emptyValues(this.suite.tipos), [this.suite.tipos[0].key]: sanitizeValues(raw.values) };
+      return { version, fecha, values };
     }
 
-    return this.freshState();
+    return null;
   }
 
   save(state: ReportState): boolean {

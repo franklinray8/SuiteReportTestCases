@@ -2,6 +2,7 @@ import { Provider } from '@angular/core';
 
 import { SuiteConfig } from '../models/suite.models';
 import { CsvExportService } from '../services/csv-export.service';
+import { ReportBackupService } from '../services/report-backup.service';
 import { ReportMetricsService } from '../services/report-metrics.service';
 import { ReportStateService } from '../services/report-state.service';
 import { ReportStorageService } from '../services/report-storage.service';
@@ -24,6 +25,7 @@ export function provideSuite(config: SuiteConfig): Provider[] {
     ReportStateService,
     ReportMetricsService,
     CsvExportService,
+    ReportBackupService,
     ReportUiService,
   ];
 }
