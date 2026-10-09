@@ -1,0 +1,21 @@
+ion-content { --background: var(--bg); }
+
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px 96px; }
+
+.panel[hidden] { display: none; }
+
+.note {
+  margin-top: 26px;
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.55;
+  max-width: 760px;
+
+  b { color: var(--ink); }
+}
+
+@media print {
+  .wrap { padding-bottom: 0; }
+  .panel[hidden] { display: block !important; }
+  .note { display: none; }
+}

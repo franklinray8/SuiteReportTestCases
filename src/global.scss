@@ -1,0 +1,62 @@
+/* CSS base que Ionic necesita */
+@import "@ionic/angular/css/core.css";
+@import "@ionic/angular/css/normalize.css";
+@import "@ionic/angular/css/structure.css";
+@import "@ionic/angular/css/typography.css";
+
+* { box-sizing: border-box; }
+
+body {
+  color: var(--ink);
+  font-feature-settings: "cv05", "ss01";
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.4;
+}
+
+h1, p { margin: 0; }
+
+.num { font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; }
+
+:focus-visible { outline: 2px solid var(--sky); outline-offset: 2px; border-radius: 4px; }
+
+/* Botones de la app (ion-button con la estética del reporte) */
+ion-button.app-btn {
+  --border-radius: 9px;
+  --border-width: 1px;
+  --border-color: var(--line);
+  --background: #fff;
+  --background-hover: var(--sky-tint);
+  --background-hover-opacity: 1;
+  --color: var(--navy);
+  --padding-start: 12px;
+  --padding-end: 12px;
+  --box-shadow: none;
+  height: 32px;
+  margin: 0;
+  font-size: 12.5px;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0;
+
+  ion-icon { font-size: 15px; margin-inline-end: 6px; }
+
+  &.primary {
+    --background: var(--navy);
+    --background-hover: var(--navy-3);
+    --border-color: var(--navy);
+    --color: #fff;
+  }
+}
+
+@media print {
+  /* ion-content usa su propio scroll; se libera para que se imprima todo el reporte */
+  html, body, ion-app { height: auto !important; overflow: visible !important; position: static !important; contain: none !important; }
+  ion-header { display: none !important; }
+  ion-content { --offset-top: 0 !important; display: block; height: auto; overflow: visible; contain: none; }
+  ion-content::part(scroll) { position: static; overflow: visible; }
+  body { background: #fff; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}

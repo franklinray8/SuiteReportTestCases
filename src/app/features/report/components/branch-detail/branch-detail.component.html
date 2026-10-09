@@ -1,0 +1,61 @@
+<details class="branch" #details open>
+  <summary>
+    <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+      stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6" /></svg>
+    <span class="bcode">{{ branch().code }}</span>
+    <span class="bname">{{ branch().nombre ? branch().nombre + ' · ' : '' }}{{ branch().productos.length }} planes</span>
+    <span class="bstats">
+      <span class="bstat">Anterior<b class="num">{{ summary().a | fmt }}</b></span>
+      <span class="bstat">Nuevos<b class="num" [class.up]="summary().net > 0" [class.dn]="summary().net < 0">{{ summary().net | signed }}</b></span>
+      <span class="bstat">Actualiz.<b class="num">{{ summary().up | fmt }}</b></span>
+      <span class="bstat">Actual<b class="num">{{ summary().ac | fmt }}</b></span>
+    </span>
+  </summary>
+
+  <div class="tablescroll">
+    <table class="dtable">
+      <thead>
+        <tr>
+          <th>Plan</th><th>Anterior</th><th>Nuevos</th><th>Actualizado</th>
+          <th>Actual</th><th>Crecim.</th><th>Mantenim.</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (r of rows(); track r.plan) {
+          <tr [hidden]="!r.visible">
+            <td class="plan">{{ r.plan }}</td>
+            <td>
+              <input class="cell-in num" type="number" inputmode="numeric" min="0"
+                [attr.aria-label]="r.plan + ' anterior'"
+                [value]="r.v.a" (input)="onInput(r.plan, 'a', $event)" />
+            </td>
+            <td>
+              <input class="cell-in num" type="number" inputmode="numeric" min="0"
+                [class.pos]="r.v.nu > 0" [attr.aria-label]="r.plan + ' nuevos'"
+                [value]="r.v.nu" (input)="onInput(r.plan, 'nu', $event)" />
+            </td>
+            <td>
+              <input class="cell-in num" type="number" inputmode="numeric" min="0"
+                [attr.aria-label]="r.plan + ' actualizado'"
+                [value]="r.v.up" (input)="onInput(r.plan, 'up', $event)" />
+            </td>
+            <td class="derived"><b class="num">{{ r.actual | fmt }}</b></td>
+            <td class="derived">{{ r.v.nu | pct: r.v.a }}</td>
+            <td class="derived">{{ r.v.up | pct: r.v.a }}</td>
+          </tr>
+        }
+      </tbody>
+      <tfoot>
+        <tr>
+          <td>Subtotal {{ branch().code }}</td>
+          <td class="num">{{ summary().a | fmt }}</td>
+          <td class="num"><app-delta-chip [value]="summary().net" /></td>
+          <td class="num">{{ summary().up | fmt }}</td>
+          <td class="num">{{ summary().ac | fmt }}</td>
+          <td class="num">{{ summary().newPos | pct: summary().a }}</td>
+          <td class="num">{{ summary().up | pct: summary().a }}</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</details>

@@ -1,0 +1,24 @@
+<app-stat-card caption="Total anterior" indicator="ant" [value]="t().ant">
+  cierre del período pasado
+</app-stat-card>
+
+<app-stat-card caption="Total actual" indicator="act" [value]="t().act">
+  @if (t().ant > 0) {
+    <b [class]="t().net >= 0 ? 'up' : 'dn'">{{ t().net | signed }}</b>
+    · {{ t().net < 0 ? '' : '+' }}{{ absNet() | pct: t().ant }} vs. anterior
+  } @else {
+    aún sin período anterior
+  }
+</app-stat-card>
+
+<app-stat-card caption="Total actualizado" indicator="upd" [value]="t().upd">
+  <b>{{ t().upd | pct: t().ant }}</b> de la suite anterior con mantenimiento
+</app-stat-card>
+
+<app-stat-card caption="Casos trabajados" indicator="work" [value]="t().trabajados">
+  @if (t().act > 0) {
+    <b>{{ t().trabajados | pct: t().act }}</b> de la suite actual creada o modificada
+  } @else {
+    nuevos + actualizados
+  }
+</app-stat-card>

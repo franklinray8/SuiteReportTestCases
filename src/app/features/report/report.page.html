@@ -1,0 +1,30 @@
+<ion-header class="ion-no-border">
+  <app-report-toolbar />
+</ion-header>
+
+<ion-content>
+  <div class="wrap">
+    <app-report-hero />
+    <app-totals-strip />
+    @if (state.hasTipos) {
+      <app-tipo-summary />
+    }
+    <app-report-tabs />
+
+    <!-- Ambos paneles quedan en el DOM: la impresión muestra los dos. -->
+    <section class="panel" role="tabpanel" aria-label="Resumen" [hidden]="ui.view() !== 'res'">
+      <app-summary-table />
+    </section>
+    <section class="panel" role="tabpanel" aria-label="Detallado" [hidden]="ui.view() !== 'det'">
+      <app-detail-view />
+    </section>
+
+    <p class="note">
+      Cada plan tiene tres campos editables: <b>Anterior</b> (casos al cierre pasado), <b>Nuevos</b> (casos creados este período) y
+      <b>Actualizado</b> (casos que recibieron mantenimiento este período). <b>Actual</b> = Anterior + Nuevos.
+      Al iniciar un período nuevo, usa <b>Cerrar período</b> para pasar el Actual a Anterior.
+      Todo se guarda automáticamente en este navegador; <b>Reiniciar</b> vuelve a los datos del archivo,
+      <b>CSV</b> descarga el detalle e <b>Imprimir / PDF</b> exporta el reporte completo.
+    </p>
+  </div>
+</ion-content>

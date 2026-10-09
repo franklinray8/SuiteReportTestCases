@@ -1,0 +1,8 @@
+@for (item of tt().items; track item.key; let i = $index) {
+  <app-stat-card [caption]="item.label" [indicator]="indicators[i % indicators.length]" [value]="item.actual">
+    casos actuales
+  </app-stat-card>
+}
+<app-stat-card caption="Total general" indicator="work" [value]="tt().total" [highlight]="true">
+  todas las categorías
+</app-stat-card>

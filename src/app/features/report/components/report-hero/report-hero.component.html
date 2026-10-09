@@ -1,0 +1,15 @@
+<div class="eyebrow">{{ eyebrow() }}</div>
+<h1>
+  <span class="n" [class.neg]="t().net < 0">{{ t().net | signed }}</span>&ngsp;<span class="lbl">casos automatizados</span>
+</h1>
+<p>
+  @if (isEmpty()) {
+    Empieza a cargar la cantidad de casos por plan en la pestaña <b>Detallado</b>. Los totales se calculan solos.
+  } @else {
+    La suite pasó de <b>{{ t().ant | fmt }}</b> a <b>{{ t().act | fmt }}</b> casos automatizados en
+    {{ t().planes }} planes de {{ t().sucursales }} {{ state.suite.grupo.plural }}.
+    <b>{{ t().trabajados | pct: t().act }}</b> de la suite actual se creó o se modificó este período
+    ({{ t().trabajados | fmt }} casos: {{ t().newPos | fmt }} nuevos + {{ t().upd | fmt }} actualizados).
+  }
+</p>
+<div class="divline"></div>

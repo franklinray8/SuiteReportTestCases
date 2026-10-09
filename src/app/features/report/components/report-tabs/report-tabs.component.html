@@ -1,0 +1,13 @@
+@if (state.hasTipos) {
+  <ion-segment class="tabs" aria-label="Tipo de producto"
+    [value]="state.currentTipo()" (ionChange)="onTipo($event.detail.value)">
+    @for (t of state.tipos; track t.key) {
+      <ion-segment-button [value]="t.key"><ion-label>{{ t.label }}</ion-label></ion-segment-button>
+    }
+  </ion-segment>
+}
+
+<ion-segment class="tabs" aria-label="Vista" [value]="ui.view()" (ionChange)="onView($event.detail.value)">
+  <ion-segment-button value="res"><ion-label>Resumen</ion-label></ion-segment-button>
+  <ion-segment-button value="det"><ion-label>Detallado</ion-label></ion-segment-button>
+</ion-segment>

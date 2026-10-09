@@ -1,0 +1,31 @@
+<ion-toolbar>
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="mark">BMI</div>
+      <div class="txt">
+        <b>{{ state.suite.titulo }}</b>
+        <span>{{ state.suite.subtitulo }}<span class="saved" aria-live="polite">{{ state.status() }}</span></span>
+      </div>
+    </div>
+
+    <nav class="suites" aria-label="Suite">
+      @for (s of suites; track s.id) {
+        <a [routerLink]="['/', s.id]" routerLinkActive="active" ariaCurrentWhenActive="page">{{ s.nombre }}</a>
+      }
+    </nav>
+
+    <div class="period">
+      <label for="fecha">Período</label>
+      <input type="date" id="fecha" [value]="state.fecha()" (change)="onFecha($event)" />
+    </div>
+
+    <ion-button class="app-btn" fill="outline" (click)="confirmReset()"
+      title="Descarta lo guardado y vuelve a los datos del archivo">Reiniciar</ion-button>
+    <ion-button class="app-btn" fill="outline" (click)="exportCsv()">
+      <ion-icon slot="start" name="download-outline" />CSV
+    </ion-button>
+    <ion-button class="app-btn primary" (click)="print()">
+      <ion-icon slot="start" name="print-outline" />Imprimir / PDF
+    </ion-button>
+  </div>
+</ion-toolbar>

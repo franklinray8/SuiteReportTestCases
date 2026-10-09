@@ -1,0 +1,42 @@
+<div class="rescard">
+  <table>
+    <thead>
+      <tr>
+        <th>{{ grupo }}</th>
+        <th>Planes</th>
+        <th>Anterior</th>
+        <th>Nuevos</th>
+        <th>Actualizados</th>
+        <th>Actual</th>
+        <th>Crecim.</th>
+        <th>Mantenim.</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (r of rows(); track r.code) {
+        <tr>
+          <td>{{ r.code }}</td>
+          <td class="num">{{ r.planes }}</td>
+          <td class="num">{{ r.a | fmt }}</td>
+          <td><app-delta-chip [value]="r.net" /></td>
+          <td class="num">{{ r.up | fmt }}</td>
+          <td class="num">{{ r.ac | fmt }}</td>
+          <td class="pctcell">{{ r.newPos | pct: r.a }}</td>
+          <td class="pctcell">{{ r.up | pct: r.a }}</td>
+        </tr>
+      }
+    </tbody>
+    <tfoot>
+      <tr>
+        <td>Total general</td>
+        <td class="num">{{ t().planes | fmt }}</td>
+        <td class="num">{{ t().ant | fmt }}</td>
+        <td class="num">{{ t().net | signed }}</td>
+        <td class="num">{{ t().upd | fmt }}</td>
+        <td class="num">{{ t().act | fmt }}</td>
+        <td class="num">{{ t().newPos | pct: t().ant }}</td>
+        <td class="num">{{ t().upd | pct: t().ant }}</td>
+      </tr>
+    </tfoot>
+  </table>
+</div>

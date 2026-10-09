@@ -1,0 +1,14 @@
+<div class="toolrow">
+  <ion-searchbar class="search" [placeholder]="'Filtrar por plan o ' + state.suite.grupo.singular.toLowerCase() + '…'" [debounce]="0"
+    (ionInput)="onSearch($event.detail.value)" />
+  <span class="hint">Edita <b>Anterior</b>, <b>Nuevos</b> y <b>Actualizado</b> por plan. El <b>Actual</b> se calcula.</span>
+  <ion-button class="app-btn" fill="outline" (click)="confirmRoll()"
+    title="Pasa el Actual de cada plan a Anterior y limpia Nuevos y Actualizado">Cerrar período →</ion-button>
+  <ion-button class="app-btn" fill="outline" (click)="ui.toggleExpanded()">
+    {{ ui.expanded() ? 'Contraer todo' : 'Expandir todo' }}
+  </ion-button>
+</div>
+
+@for (item of items(); track item.branch.code) {
+  <app-branch-detail [branch]="item.branch" [summary]="item.summary" [query]="query()" />
+}

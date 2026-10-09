@@ -1,0 +1,12 @@
+.chip {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+
+  &.up { background: rgba(31, 122, 84, .12); color: var(--pos); }
+  &.dn { background: rgba(178, 58, 72, .12); color: var(--neg); }
+  &.zero { background: #eef2f7; color: var(--muted); }
+}

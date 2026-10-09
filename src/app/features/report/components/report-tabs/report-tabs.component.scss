@@ -1,0 +1,36 @@
+:host { display: block; }
+
+.tabs {
+  --background: #fff;
+  display: flex;
+  gap: 4px;
+  margin: 16px 0;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 4px;
+  width: max-content;
+  max-width: 100%;
+
+  &:first-child { margin-top: 30px; }
+}
+
+ion-segment-button {
+  --color: var(--muted);
+  --color-checked: #fff;
+  --background-checked: var(--navy);
+  --background-hover: var(--sky-tint);
+  --indicator-color: transparent;
+  --border-radius: 9px;
+  --padding-start: 18px;
+  --padding-end: 18px;
+  min-height: 34px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0;
+  min-width: auto;
+}
+
+@media print {
+  :host { display: none; }
+}
