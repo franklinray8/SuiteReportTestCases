@@ -119,15 +119,16 @@
   font-weight: 600;
   text-align: right;
   color: var(--ink);
-  border: 1px solid transparent;
+  // borde y fondo siempre visibles: distingue lo editable de lo calculado
+  border: 1px solid var(--line);
   border-radius: 7px;
-  background: transparent;
+  background: #f7fafd;
   padding: 5px 8px;
   font-variant-numeric: tabular-nums;
   transition: border-color .12s, background .12s;
   -moz-appearance: textfield;
 
-  &:hover { background: #f3f8fd; }
+  &:hover { border-color: var(--sky-2); background: #fff; }
   &:focus { outline: none; border-color: var(--sky); background: #fff; box-shadow: 0 0 0 3px rgba(59, 154, 217, .16); }
   &.pos { color: var(--pos); font-weight: 700; }
 
@@ -143,4 +144,5 @@ td.derived { color: var(--muted); font-variant-numeric: tabular-nums; }
 
 @media print {
   .branch { break-inside: avoid; box-shadow: none; }
+  .cell-in { border-color: transparent; background: transparent; }
 }
